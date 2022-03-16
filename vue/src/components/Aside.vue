@@ -5,7 +5,7 @@
         default-active="2"
         class="el-menu-vertical-demo">
       <el-submenu index="1">
-        <template #title>选项1</template>
+        <template #title>系统管理</template>
         <el-menu-item index="1-4-1">选项1</el-menu-item>
       </el-submenu>
       <el-menu-item index="2">
