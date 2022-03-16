@@ -51,24 +51,26 @@
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-popconfirm title="确定删除吗？">
             <template #reference>
-              <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)" style="margin-left: 10px">删除</el-button>
+              <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)"
+                         style="margin-left: 10px">删除
+              </el-button>
             </template>
           </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
 
-<!--    分页-->
+    <!--    分页-->
     <div style="margin: 10px 0">
       <div class="block">
         <el-pagination
             @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="currentPage"
+            @currentPage-change="handleCurrentChange"
+            :currentPage-page="currentPage"
             :page-sizes="[5, 10, 20, 50]"
-            :page-size="10"
+            :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="totalPage">
+            :total="total">
         </el-pagination>
 
         <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
@@ -111,19 +113,41 @@ export default {
   components: {},
   data() {
     return {
-      form:{},
-      dialogVisible:false,
-      search: [],
-      totalPage:30,
+      loading:true,
+      form: {},
+      dialogVisible: false,
+      search: '',
+      currentPage: 1,
+      pageSize: 10,
+      total: 0,
       tableData: []
     }
   },
+  created() {
+    this.load()
+  },
   methods: {
-    add(){
+    load() {
+      // this.loading = true
+      request.get("/user", {
+        params:{
+          pageNum: this.currentPage,
+          pageSize: this.pageSize,
+          search: this.search
+        }
+      }).then(res => {
+        // this.loading = false
+        console.log(res)
+        this.tableData = res.data.records
+        this.total = res.data.total
+      })
+    },
+
+    add() {
       this.dialogVisible = true
       this.form = {}
     },
-    save(){
+    save() {
       request.post("/api/user", this.form).then(res => {
         console.log(res)
       })
@@ -131,18 +155,18 @@ export default {
     handleEdit() {
 
     },
-    handleSizeChange(){
+    handleSizeChange() {
 
     },
-    handleCurrentChange(){
+    handleCurrentChange() {
 
     },
-    handleDelete(){
+    handleDelete() {
 
     },
-    currentPage(){
-
-    },
+    // currentPage() {
+    //
+    // },
   }
 }
 </script>
