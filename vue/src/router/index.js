@@ -10,7 +10,7 @@ const routes = [
         name: 'Layout',
         component: Layout,
         redirect: "/home",
-        children:[{
+        children: [{
             path: 'home',
             name: 'Home',
             component: () => import("@/views/HomeView"),
@@ -20,6 +20,11 @@ const routes = [
         path: '/login',
         name: 'Login',
         component: () => import("@/components/Login")
+    },
+    {
+        path: '/register',
+        name: 'Register',
+        component: () => import("@/components/Register")
     },
 
 ]

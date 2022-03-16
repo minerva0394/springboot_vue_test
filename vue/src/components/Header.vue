@@ -7,10 +7,12 @@
         <span class="el-dropdown-link">
           张三<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>个人信息</el-dropdown-item>
-          <el-dropdown-item @click="$router.push('/user/login')">退出系统</el-dropdown-item>
-        </el-dropdown-menu>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>个人信息</el-dropdown-item>
+            <el-dropdown-item @click="$router.push('/login')">退出系统</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
       </el-dropdown>
     </div>
 
