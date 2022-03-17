@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-menu
-        style="width: 200px;min-height: calc(100vh - 50px)"
-        default-active="/user"
+        style="min-height: calc(100vh - 50px); width: 200px"
+        :default-active="path"
         router
         class="el-menu-vertical-demo">
       <el-submenu index="1">
@@ -16,7 +16,12 @@
 
 <script>
 export default {
-  name: "Aside"
+  name: "Aside",
+  data(){
+    return{
+      path:this.$route.path //设置默认高亮菜单
+    }
+  }
 }
 </script>
 

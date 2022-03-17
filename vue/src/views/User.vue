@@ -72,18 +72,18 @@
           :total="total">
       </el-pagination>
 
-      <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
-        <el-form :model="form" label-width="120px">
-          <el-form-item label="用户名:">
+      <el-dialog title="新增用户" :visible.sync="dialogVisible" width="30%" ref="newUser">
+        <el-form :model="form" label-width="120px" :rules="rules">
+          <el-form-item label="用户名:" prop="username">
             <el-input v-model="form.username" style="width: 80%"></el-input>
           </el-form-item>
-          <el-form-item label="昵称:">
+          <el-form-item label="昵称:" prop="nickName">
             <el-input v-model="form.nickName" style="width: 80%"></el-input>
           </el-form-item>
-          <el-form-item label="年龄:">
-            <el-input v-model="form.age" style="width: 80%"></el-input>
+          <el-form-item label="年龄:" prop="age">
+            <el-input v-model.number="form.age" style="width: 80%"></el-input>
           </el-form-item>
-          <el-form-item label="性别:">
+          <el-form-item label="性别:" prop="sex">
             <el-radio v-model="form.sex" label="1" style="width: 80%">男</el-radio>
             <el-radio v-model="form.sex" label="2" style="width: 80%">女</el-radio>
             <el-radio v-model="form.sex" label="3" style="width: 80%">未知</el-radio>
@@ -109,7 +109,56 @@ export default {
   name: 'HomeView',
   components: {},
   data() {
+    var checkAge = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('年龄不能为空'));
+      }
+      setTimeout(() => {
+        if (!Number.isInteger(value)) {
+          callback(new Error('请输入数字值'));
+        } else {
+          if (value > 100 || value < 18) {
+            callback(new Error('必须在18~100岁之间'));
+          } else {
+            callback();
+          }
+        }
+      }, 1000);
+    };
     return {
+      rules: {
+        username: [{
+          required: true,
+          message: "请输入用户名",
+          trigger: 'blur'
+        }, {
+          min: 3,
+          max: 10,
+          message: "请输入3~10个字符",
+          trigger: 'blur'
+        }],
+        nickName: [{
+          required: true,
+          message: "请输入昵称",
+          trigger: 'blur'
+        }, {
+          min: 3,
+          max: 10,
+          message: "请输入3~10个字符",
+          trigger: 'blur'
+        }],
+        sex: [{
+          required: true,
+          message: "请选择性别",
+          trigger: 'change'
+        }],
+        age: [{
+          validator: checkAge,
+          trigger: 'blur',
+          required: true
+        }]
+
+      },
       loading: true,
       form: {},
       dialogVisible: false,
@@ -146,7 +195,6 @@ export default {
       this.form = {}
     },
     save() {
-
       if (this.form.id) {
         request.put("/user", this.form).then(res => {
           console.log(res)
@@ -199,7 +247,7 @@ export default {
     },
     handleDelete(id) {
       console.log("当前删除id为：" + id)
-      request.delete("/user/" + id).then(res =>{
+      request.delete("/user/" + id).then(res => {
         if (res.code === '0') {
           this.$message({
             type: "success",

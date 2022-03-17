@@ -22,5 +22,6 @@ public class Book {
     private String author;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
+    private String cover;
 
 }
