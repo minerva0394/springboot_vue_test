@@ -9,11 +9,16 @@ const routes = [
         path: '/',
         name: 'Layout',
         component: Layout,
-        redirect: "/home",
+        redirect: "/user",
         children: [{
-            path: 'home',
-            name: 'Home',
-            component: () => import("@/views/HomeView"),
+            path: 'user',
+            name: 'User',
+            component: () => import("@/views/User"),
+        },
+        {
+            path: '/book',
+            name: 'Book',
+            component: () => import("@/views/Book")
         }]
     },
     {
@@ -26,6 +31,7 @@ const routes = [
         name: 'Register',
         component: () => import("@/components/Register")
     },
+
 
 ]
 

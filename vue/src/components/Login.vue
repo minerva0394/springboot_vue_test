@@ -45,6 +45,7 @@ export default {
                 type: "success",
                 message: "登录成功!"
               })
+              sessionStorage.setItem("user", JSON.stringify(res.data))  //缓存用户信息
               this.$router.push("/")  // 登陆成功后进行页面跳转
             } else {
               this.$message({

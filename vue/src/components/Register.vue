@@ -45,8 +45,6 @@ export default {
   },
   methods: {
     register() {
-
-
       if (this.form.password !== this.form.confirm) {
         this.$message({
           type: "error",
